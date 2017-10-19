@@ -25,15 +25,20 @@ module.exports = { retrieveKeys };
 },{"./data":2}],2:[function(require,module,exports){
 "use strict";
 
+const dom = require('./dom');
+
 let owmKey;
-let apiArray = [];
+let array = [];
+
 
 
 const owmConfiguration = () => {
 	return new Promise((resolve, reject) => {
 		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${owmKey}`).done((data) => {
 			resolve(data.results);
+			array.push(data);
 			console.log("data", data);
+			showResults(array);
 		}).fail((error) => {
 			reject(error);
 		});
@@ -48,12 +53,36 @@ const setKey = (apiKey) => {
 	owmConfiguration();
 };
 
-/*const showResults = () => {
-	// calls dom.domstring
-};*/
+const showResults = (weatherArray) => {
+/*	dom.clearDom();*/
+	dom.buildDomString(weatherArray);
+};
 
 module.exports = {setKey};
-},{}],3:[function(require,module,exports){
+},{"./dom":3}],3:[function(require,module,exports){
+"use strict";
+
+const buildDomString = (weatherArray) => {
+	let domString = "";
+	for (let i = 0; i < weatherArray.length; i++) {
+	
+	domString += `<div class="mdc-card container-fluid">`;
+	domString +=	`<section class="mdc-card__primary">`;
+	domString += 	`<h1>City${weatherArray.city}</h1>`;
+	domString +=	`<div>${weatherArray[i].icon}</div>`;
+	domString += 	`<h3>${weatherArray[i].pressure}</h3>`;
+	domString += 	`<h3>${weatherArray[i].speed}</h3>`;
+	domString += `</div>`;
+	}
+	printToDom(domString);
+};
+
+const printToDom = (strang) => {
+	$("#weatherOutput").append(strang);
+};
+
+module.exports = {buildDomString};
+},{}],4:[function(require,module,exports){
 "use strict";
 
 const apiKey = require('./apiKeys');
@@ -61,4 +90,4 @@ const apiKey = require('./apiKeys');
 
 apiKey.retrieveKeys();
 
-},{"./apiKeys":1}]},{},[3]);
+},{"./apiKeys":1}]},{},[4]);

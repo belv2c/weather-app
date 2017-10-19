@@ -1,2 +1,3 @@
-body {
-  background-color: lightgreen; }
+.mdc-card {
+  height: 350px;
+  width: 350px; }
