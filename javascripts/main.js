@@ -1,3 +1,4 @@
 "use strict";
 
-console.log("main.js");
+let apiKeys = ('./apiKeys');
+let dom = require('./dom');
