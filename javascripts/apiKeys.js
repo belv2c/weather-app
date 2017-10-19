@@ -13,11 +13,11 @@ const apiKeys = () => {
 };
 
 const retrieveKeys = () => {
-	apiKeys.then((resolve, reject) => {
-		// set key
+	apiKeys().then((results) => {
+		owm.setKey(results.owm.apiKey);
 	}).catch((error) => {
-		console.log("error from retrieveKeys", error);
+		console.log("error from retrieveKey", error);
 	});
 };
 
-module.exports = {retrieveKeys};
+module.exports = { retrieveKeys };
