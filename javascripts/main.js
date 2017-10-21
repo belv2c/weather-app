@@ -1,6 +1,6 @@
 "use strict";
 
 const apiKey = require('./apiKeys');
-/*const dom = require('./dom');*/
+const dom = require('./dom');
 
 apiKey.retrieveKeys();
