@@ -32,9 +32,9 @@ let array = [];
 
 
 
-const owmConfiguration = () => {
+const owmConfiguration = (zip) => {
 	return new Promise((resolve, reject) => {
-		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${owmKey}`).done((data) => {
+		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&appid=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
 			/*array.push(data);*/
 			console.log("data", data.list);
@@ -46,15 +46,19 @@ const owmConfiguration = () => {
 	});
 };
 
-const setKey = (apiKey) => {
+const setWeather = (zip) => {
 	// accepts a string
-	owmKey = apiKey;
-	console.log(owmKey);
-	owmConfiguration().then((results) => {
+
+	owmConfiguration(zip).then((results) => {
 		showResults(results);
 	}).catch((error) => {
 		console.log("error from setKey", error);
 	});
+};
+
+const setKey = (apiKey) => {
+	owmKey = apiKey;
+	console.log(owmKey);
 };
 
 const showResults = (weatherArray) => {
@@ -62,11 +66,11 @@ const showResults = (weatherArray) => {
 	dom.buildDomString(weatherArray);
 };
 
-module.exports = {setKey};
+module.exports = {setKey, setWeather};
 },{"./dom":3}],3:[function(require,module,exports){
 "use strict";
 
-
+let weatherArray = 1;
 
 const buildDomString = (weatherObject) => {
 	let domString = "";
@@ -74,14 +78,20 @@ const buildDomString = (weatherObject) => {
 	
 	let weatherArray = weatherObject.list;
 	for (let i = 0; i < weatherArray.length; i++) {
+	/*	if (i % 3 === 0) {
+		domString += `<div class="row">`;
+	}*/
 	
-	domString += `<div class="mdc-card container-fluid">`;
-	domString +=	`<section class="mdc-card__primary">`;
+	domString += `<div class="col-sm-3">`;
+	
 	domString += 	`<h1>${weatherObject.city.name}</h1>`;
-	domString +=	`<div>${weatherArray[i].main.temp}</div>`;
+	domString +=	`<div>${weatherArray[i].main.temp} &deg F</div>`;
+	domString += 	`<p>${weatherArray[i].weather[0].description}</p>`;
 	domString += 	`<h3>${weatherArray[i].main.pressure}</h3>`;
 	domString += 	`<h3>${weatherArray[i].wind.speed}</h3>`;
+	domString +=	`</section>`;
 	domString += `</div>`;
+	domString += `</main>`;
 	}
 	printToDom(domString);
 };
@@ -90,13 +100,48 @@ const printToDom = (strang) => {
 	$("#weatherOutput").append(strang);
 };
 
+
+
 module.exports = {buildDomString};
 },{}],4:[function(require,module,exports){
 "use strict";
 
-const apiKey = require('./apiKeys');
+const owm = require('./data');
 const dom = require('./dom');
 
-apiKey.retrieveKeys();
+const enterEvent = () => {
+	$(document).keypress((e) => {
+		let zipInput = $("#pre-filled").val();
+		if (e.key === 'Enter' && zipInput.length === 5) {
+			console.log("enter event", e);
+			owm.setWeather(zipInput);
+		}	
+	});
+};
 
-},{"./apiKeys":1,"./dom":3}]},{},[4]);
+const searchZip = () => {
+	$("#searchZip").click((e) => {
+		console.log("click", e);
+		let zipInput = $("#pre-filled").val();
+		if (zipInput.length === 5) {
+			console.log("it's 5!");
+			owm.setWeather(zipInput);
+		} 
+	});
+};
+
+module.exports = {enterEvent, searchZip};
+},{"./data":2,"./dom":3}],5:[function(require,module,exports){
+"use strict";
+
+const events = require('./events');
+const apiKey = require('./apiKeys');
+
+
+
+
+apiKey.retrieveKeys();
+events.enterEvent();
+events.searchZip();
+
+},{"./apiKeys":1,"./events":4}]},{},[5]);
