@@ -7,9 +7,9 @@ let array = [];
 
 
 
-const owmConfiguration = () => {
+const owmConfiguration = (zip) => {
 	return new Promise((resolve, reject) => {
-		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${owmKey}`).done((data) => {
+		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&appid=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
 			/*array.push(data);*/
 			console.log("data", data.list);
@@ -21,15 +21,19 @@ const owmConfiguration = () => {
 	});
 };
 
-const setKey = (apiKey) => {
+const setWeather = (zip) => {
 	// accepts a string
-	owmKey = apiKey;
-	console.log(owmKey);
-	owmConfiguration().then((results) => {
+
+	owmConfiguration(zip).then((results) => {
 		showResults(results);
 	}).catch((error) => {
 		console.log("error from setKey", error);
 	});
+};
+
+const setKey = (apiKey) => {
+	owmKey = apiKey;
+	console.log(owmKey);
 };
 
 const showResults = (weatherArray) => {
@@ -37,4 +41,4 @@ const showResults = (weatherArray) => {
 	dom.buildDomString(weatherArray);
 };
 
-module.exports = {setKey};
+module.exports = {setKey, setWeather};

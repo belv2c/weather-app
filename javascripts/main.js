@@ -1,6 +1,11 @@
 "use strict";
 
+const events = require('./events');
 const apiKey = require('./apiKeys');
-const dom = require('./dom');
+
+
+
 
 apiKey.retrieveKeys();
+events.enterEvent();
+events.searchZip();
