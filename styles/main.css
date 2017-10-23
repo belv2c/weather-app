@@ -1,6 +1,12 @@
+.card {
+  height: 300px;
+  width: 300px;
+  padding: 0;
+  margin: 20px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 9px 7px 40px -6px rgba(0, 0, 0, 0.25);
+  background-color: lightgreen; }
+
 #searchZip {
   font-size: larger; }
-
-.mdc-card {
-  height: 350px;
-  width: 350px; }

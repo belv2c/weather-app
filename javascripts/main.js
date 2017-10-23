@@ -8,4 +8,7 @@ const apiKey = require('./apiKeys');
 
 apiKey.retrieveKeys();
 events.enterEvent();
+events.enterThreeEvent();
 events.searchZip();
+events.searchThree();
+events.searchThreeDayZip();
