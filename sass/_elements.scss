@@ -1,3 +1,14 @@
+.card {
+  height: 300px;
+  width: 300px;
+  padding: 0;
+  margin: 20px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: $box-shadow;
+  background-color: $lightgreen;
+}
+
 #searchZip {
 	font-size: larger;
 }
