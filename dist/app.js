@@ -48,7 +48,6 @@ const owmConfiguration = (zip) => {
 
 const setWeather = (zip) => {
 	// accepts a string
-
 	owmConfiguration(zip).then((results) => {
 		showResults(results);
 	}).catch((error) => {
@@ -62,9 +61,12 @@ const setKey = (apiKey) => {
 };
 
 const showResults = (weatherArray) => {
-/*	dom.clearDom();*/
+	dom.clearDom();
 	dom.buildDomString(weatherArray);
+	
 };
+
+
 
 module.exports = {setKey, setWeather};
 },{"./dom":3}],3:[function(require,module,exports){
@@ -100,9 +102,13 @@ const printToDom = (strang) => {
 	$("#weatherOutput").append(strang);
 };
 
+const clearDom = () => {
+	$("#weatherOutput").empty();
+};
 
 
-module.exports = {buildDomString};
+
+module.exports = {buildDomString, clearDom};
 },{}],4:[function(require,module,exports){
 "use strict";
 
