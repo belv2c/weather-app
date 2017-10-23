@@ -30,6 +30,10 @@ const printToDom = (strang) => {
 	$("#weatherOutput").append(strang);
 };
 
+const clearDom = () => {
+	$("#weatherOutput").empty();
+};
 
 
-module.exports = {buildDomString};
+
+module.exports = {buildDomString, clearDom};
