@@ -12,3 +12,6 @@ events.enterThreeEvent();
 events.searchZip();
 events.searchThree();
 events.searchThreeDayZip();
+events.enterFiveEvent();
+events.searchFive();
+events.searchFiveDayZip();

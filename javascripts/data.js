@@ -41,6 +41,14 @@ const setThreeDay = (zip) => {
 	});
 };
 
+const setFiveDay = (zip) => {
+	owmConfiguration(zip).then((results) => {
+		showFiveDay(results);
+	}).catch((error) => {
+		console.log("error from setFiveDay", error);
+	});
+};
+
 const showResults = (weatherArray) => {
 	dom.clearDom();
 	dom.buildDomString(weatherArray);
@@ -51,7 +59,12 @@ const showThreeDay = (weatherArray) => {
 	dom.threeDayString(weatherArray);
 };
 
+const showFiveDay = (weatherArray) => {
+	dom.clearDom();
+	dom.fiveDayString(weatherArray);
+};
 
 
-module.exports = {setKey, setWeather, setThreeDay};
+
+module.exports = {setKey, setWeather, setThreeDay, setFiveDay};
 

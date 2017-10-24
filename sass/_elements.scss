@@ -1,5 +1,5 @@
 .card {
-  height: 300px;
+  height: auto;
   width: 300px;
   padding: 0;
   margin: 20px;
@@ -7,8 +7,22 @@
   position: relative;
   box-shadow: $box-shadow;
   background-color: $lightgreen;
+  text-align: center;
+  }
+  .card:hover {
+  transform: translateY(-3px);
+  -webkit-transform: translateY(-3px);
+  -moz-transform: translateY(-3px);
+   cursor: pointer;
+}
+
+
+.wi {
+	font-size: 100px;
+	margin: 0 auto;
 }
 
 #searchZip {
 	font-size: larger;
 }
+
