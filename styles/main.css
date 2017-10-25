@@ -1,12 +1,12 @@
 .card {
   height: auto;
-  width: 300px;
+  width: 336px;
   padding: 0;
   margin: 20px;
   border-radius: 5px;
   position: relative;
   box-shadow: 9px 7px 40px -6px rgba(0, 0, 0, 0.25);
-  background-color: #0f58f0;
+  background-color: deepskyblue;
   text-align: center;
   color: white; }
 
@@ -16,10 +16,19 @@
   -moz-transform: translateY(-3px);
   cursor: pointer; }
 
+.details {
+  text-align: -webkit-right; }
+
+.temp {
+  font-size: 43px;
+  margin-right: -38px;
+  margin-top: 35px; }
+
 .wi {
-  font-size: 100px;
-  margin: 0 auto;
-  margin: 17px; }
+  font-size: 81px;
+  margin-right: -30px;
+  margin-bottom: 12px;
+  margin-top: 11px; }
 
 #searchZip {
   font-size: larger; }
