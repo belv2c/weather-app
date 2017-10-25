@@ -6,8 +6,9 @@
   border-radius: 5px;
   position: relative;
   box-shadow: 9px 7px 40px -6px rgba(0, 0, 0, 0.25);
-  background-color: lightgreen;
-  text-align: center; }
+  background-color: #0f58f0;
+  text-align: center;
+  color: white; }
 
 .card:hover {
   transform: translateY(-3px);
@@ -17,7 +18,8 @@
 
 .wi {
   font-size: 100px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  margin: 17px; }
 
 #searchZip {
   font-size: larger; }
