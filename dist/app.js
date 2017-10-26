@@ -2,6 +2,7 @@
 "use strict";
 
 const owm = require('./data');
+const firebaseApi = require('./firebaseApi');
 
 const apiKeys = () => {
 	return new Promise((resolve, reject) => {
@@ -16,27 +17,25 @@ const apiKeys = () => {
 const retrieveKeys = () => {
 	apiKeys().then((results) => {
 		owm.setKey(results.owm.apiKey);
+		firebaseApi.setKey(results.firebaseKeys);
+		firebase.initializeApp(results.firebaseKeys);
 	}).catch((error) => {
 		console.log("error from retrieveKey", error);
 	});
 };
 
 module.exports = { retrieveKeys };
-},{"./data":2}],2:[function(require,module,exports){
+},{"./data":2,"./firebaseApi":5}],2:[function(require,module,exports){
 "use strict";
 
-const dom = require('./dom');
-
 let owmKey;
-
-
+const dom = require('./dom');
 
 
 const owmConfiguration = (zip) => {
 	return new Promise((resolve, reject) => {
 		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&appid=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
-			console.log("data", data.list);
 		}).fail((error) => {
 			reject(error);
 		});
@@ -222,18 +221,18 @@ const clearDom = () => {
 };
 
 module.exports = {buildDomString, clearDom, threeDayString, fiveDayString};
-},{"../lib/node_modules/moment/moment.js":6}],4:[function(require,module,exports){
+},{"../lib/node_modules/moment/moment.js":7}],4:[function(require,module,exports){
 "use strict";
 
 const owm = require('./data');
 const dom = require('./dom');
+const firebaseApi = require('./firebaseApi');
 let zip;
 
 const enterEvent = () => {
 	$(document).keypress((e) => {
 		let zipInput = $("#pre-filled").val();
 		if (e.key === 'Enter' && zipInput.length === 5) {
-			console.log("enter event", e);
 			owm.setWeather(zipInput);
 		}	
 	});
@@ -243,7 +242,6 @@ const enterThreeEvent = () => {
 	$(document).keypress((e) => {
 		let zipInput = $("#pre-filled").val();
 		if (e.key === 'Enter' && zipInput.length === 5) {
-			console.log("3day enter event", e);
 			owm.setThreeDay(zipInput);
 		}	
 	});
@@ -253,7 +251,6 @@ const enterFiveEvent = () => {
 	$(document).keypress((e) => {
 		let zipInput = $("#pre-filled").val();
 		if (e.key === 'Enter' && zipInput.length === 5) {
-			console.log("3day enter event", e);
 			owm.setFiveDay(zipInput);
 		}	
 	});
@@ -261,10 +258,8 @@ const enterFiveEvent = () => {
 
 const searchZip = () => {
 	$("#searchZip").click((e) => {
-		console.log("click", e);
 		let zipInput = $("#pre-filled").val();
 		if (zipInput.length === 5) {
-			console.log("it's 5!");
 			owm.setWeather(zipInput);
 		} 
 	});
@@ -272,10 +267,8 @@ const searchZip = () => {
 
 const searchThreeDayZip = () => {
 	$("#threeDayButton").click((e) => {
-		console.log("click", e);
 		let zipInput = $("#pre-filled").val();
 		if (zipInput.length === 5) {
-			console.log("it's 5!");
 			owm.setThreeDay(zipInput);
 		} 
 	});
@@ -285,16 +278,13 @@ const searchThreeDayZip = () => {
 const searchThree = () => {
 $("#threeDayButton").click((e) => {
 	owm.setThreeDay(zip);
-	console.log("3 days", e);
 	});
 };
 
 const searchFiveDayZip = () => {
 	$("#fiveDayButton").click((e) => {
-		console.log("click", e);
 		let zipInput = $("#pre-filled").val();
 		if (zipInput.length === 5) {
-			console.log("it's 5!");
 			owm.setFiveDay(zipInput);
 		} 
 	});
@@ -303,16 +293,75 @@ const searchFiveDayZip = () => {
 const searchFive = () => {
 $("#fiveDayButton").click((e) => {
 	owm.setFiveDay(zip);
-	console.log("5 days", e);
+	});
+};
+
+const myLinks = () => {
+	$(document).click((e) =>{
+		if(e.target.id === "mine"){
+			$("#search").addClass("hide");
+		}else if (e.target.id === "searchWeather") {
+			$("#search").removeClass("hide");
+			$("#myForecasts").addClass("hide");
+			/*getMahMovies();*/
+		}
 	});
 };
 
 
+const googleAuth = () => {
+	$('#googleButton').click((e) =>{
+		firebaseApi.authenticateGoogle().then().catch((err) =>{
+			console.log("error in authenticateGoogle", err);
+		});
+	});
+};
+
+const init = () => {
+	enterEvent();
+	enterThreeEvent();
+	searchZip();
+	searchThree();
+	searchThreeDayZip();
+	searchFive();
+	enterFiveEvent();
+	searchFiveDayZip();
+	myLinks();
+	googleAuth();
+};
 
 
 
-module.exports = {enterEvent, enterThreeEvent, searchZip, searchThree, searchThreeDayZip, searchFive, enterFiveEvent, searchFiveDayZip};
-},{"./data":2,"./dom":3}],5:[function(require,module,exports){
+module.exports = {init};
+
+
+
+},{"./data":2,"./dom":3,"./firebaseApi":5}],5:[function(require,module,exports){
+"use strict";
+
+let firebaseKey = "";
+let userUid = "";
+
+const setKey = (key) => {
+	firebaseKey = key;
+};
+
+//Firebase: GOOGLE - Use input credentials to authenticate user.
+let authenticateGoogle = () => {
+    return new Promise((resolve, reject) => {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then((authData) => {
+        	userUid = authData.user.uid;
+            resolve(authData.user);
+        }).catch((error) => {
+            reject(error);
+        });
+    });
+  };
+
+module.exports = {setKey, authenticateGoogle};
+},{}],6:[function(require,module,exports){
 "use strict";
 
 const events = require('./events');
@@ -322,16 +371,9 @@ const apiKey = require('./apiKeys');
 
 
 apiKey.retrieveKeys();
-events.enterEvent();
-events.enterThreeEvent();
-events.searchZip();
-events.searchThree();
-events.searchThreeDayZip();
-events.enterFiveEvent();
-events.searchFive();
-events.searchFiveDayZip();
+events.init();
 
-},{"./apiKeys":1,"./events":4}],6:[function(require,module,exports){
+},{"./apiKeys":1,"./events":4}],7:[function(require,module,exports){
 //! moment.js
 //! version : 2.19.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -4847,4 +4889,4 @@ return hooks;
 
 })));
 
-},{}]},{},[5]);
+},{}]},{},[6]);

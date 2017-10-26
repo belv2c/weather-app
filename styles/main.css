@@ -30,6 +30,10 @@
   margin-bottom: 12px;
   margin-top: 11px; }
 
+.social-button {
+  width: 56px;
+  height: 56px; }
+
 #searchZip {
   font-size: larger; }
 
