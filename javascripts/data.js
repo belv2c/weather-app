@@ -1,17 +1,13 @@
 "use strict";
 
-const dom = require('./dom');
-
 let owmKey;
-
-
+const dom = require('./dom');
 
 
 const owmConfiguration = (zip) => {
 	return new Promise((resolve, reject) => {
 		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&appid=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
-			console.log("data", data.list);
 		}).fail((error) => {
 			reject(error);
 		});

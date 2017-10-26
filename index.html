@@ -2,30 +2,95 @@
 <html>
 <head>
 	<title>Weather App</title> 
+
+<!--STYLESHEETS-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" type="text/css" href="./lib/node_modules/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="./lib/node_modules/material-components-web/dist/material-components-web.css">
   <link rel="stylesheet" type="text/css" href="./styles/main.css">
-
 </head>
+
 <body>
 
-<div class="col-xs-12 container-fluid">
-	<h1 class="mdc-typography--display1">Weather</h1>
-	<div class="mdc-textfield mdc-textfield--upgraded">
-	  <input type="text" id="pre-filled" class="mdc-textfield__input" placeholder="Enter 5 digit zip">
-	  <label class="mdc-textfield__label mdc-textfield__label--float-above" for="pre-filled">
-	    Zip Code
-	  </label>
-	</div>
+<!--NAVBAR-->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <ul class="nav navbar-nav navbar-right">
+      <!--GOOGLE AUTH-->
+<li class="text-center" id="authScreen">
+    <button type="button" class="mdc-button mdc-button--raised" id="googleButton">LOGIN WITH GOOGLE</button>
+  </li>
+        <li><a href="#">Link</a></li>
+
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a id="searchWeather">Show Weather</a></li>
+            <li><a id="mine">Saved Forecasts</a></li>
+            <li><a href="#">Something else here</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+
+
+<!--ZIP INPUT-->
+<div class="row container-fluid" id="search">
+	<div class="col-xs-12 container-fluid">
+		<div class="mdc-textfield mdc-textfield--upgraded">
+		  <input type="text" id="pre-filled" class="mdc-textfield__input" placeholder="Enter 5 digit zip">
+		  <label class="mdc-textfield__label mdc-textfield__label--float-above" for="pre-filled">
+		    Zip Code
+		  </label>
+		</div>
+
+		<!--BUTTONS-->
 	<button type="button" class="mdc-button mdc-button--raised" id="searchZip">GO</button>
 	<button type="button" class="mdc-button mdc-button--raised" id="threeDayButton">3</button>
 	<button type="button" class="mdc-button mdc-button--raised" id="fiveDayButton">5</button>
+	<br>
+	<br>
+		
+		<!--WEATHER CARD DIV-->
+		<div id="weatherOutput"> 
+	</div>
 </div>
 
-<div id="weatherOutput"> </div>
+
+<!--SAVED FORECASTS-->
+ <div class="text-center hide" id="myForecasts">
+    <h1>My Forecasts</h1>
+    <div id="forecastsMine"></div>
+  </div>
 
 
+<!--SOCIAL-->
+<footer>
+	<i class="material-icons">share</i>
+	<button type="button" class="mdc-fab material-icons" id="facebookButton">
+		<img class="social-button" src="./images/facebook.png">
+	</button>
+
+	<button type="button" class="mdc-fab material-icons" id="twitterButton">
+		<img class="social-button" src="./images/twitter.png">
+	</button>
+</footer>
+
+
+
+
+
+<!--SCRIPTS-->
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
 <script type="text/javascript" src="./lib/node_modules/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="./lib/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="./dist/app.js"></script>
