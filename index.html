@@ -14,23 +14,21 @@
 <body>
 
 <!--NAVBAR-->
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" id="navBar">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
       <ul class="nav navbar-nav navbar-right">
-      <!--GOOGLE AUTH-->
-<li class="text-center" id="authScreen">
-    <button type="button" class="mdc-button mdc-button--raised" id="googleButton">LOGIN WITH GOOGLE</button>
-  </li>
+
         <li><a href="#">Link</a></li>
 
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu">
+          	<li><a id="authenticate">Login Screen</a></li>
             <li><a id="searchWeather">Show Weather</a></li>
             <li><a id="mine">Saved Forecasts</a></li>
-            <li><a href="#">Something else here</a></li>
+            
           </ul>
         </li>
       </ul>
@@ -39,12 +37,29 @@
 </nav>
 
 
-
-
+<!--Authenticate-->
+<div class="container-fluid authBackground">
+<div class="authPage text-center" id="authScreen">
+	<p class="wi wi-day-sunny-overcast homeIcon"></p>
+	<h1 class="weather-app">Weather App</h1>
+	<div class="input-group input-group-lg col-md-6 col-md-offset-3">
+  		<input type="text" class="form-control" id="emailHolder" placeholder="E-mail" aria-describedby="sizing-addon1">
+  		<br>
+  		<input type="text" class="form-control" id="passwordHolder" placeholder="Password" aria-describedby="sizing-addon1">
+  		<br>
+  		<button type="button" class="mdc-button mdc-button--raised" id="goButton">LOGIN</button>
+	</div>
+		<p> or </p>
+          <!--GOOGLE AUTH-->
+	<li class="text-center" id="authScreen">
+    <button type="button" class="mdc-button mdc-button--raised" id="googleButton">SIGNUP WITH GOOGLE</button>
+  </li>
+</div>
+</div>
 
 
 <!--ZIP INPUT-->
-<div class="row container-fluid" id="search">
+<div class="row container-fluid hide" id="search">
 	<div class="col-xs-12 container-fluid">
 		<div class="mdc-textfield mdc-textfield--upgraded">
 		  <input type="text" id="pre-filled" class="mdc-textfield__input" placeholder="Enter 5 digit zip">
@@ -64,22 +79,22 @@
 		<div id="weatherOutput"> 
 	</div>
 </div>
+</div>
 
 
 <!--SAVED FORECASTS-->
- <div class="text-center hide" id="myForecasts">
-    <h1>My Forecasts</h1>
-    <div id="forecastsMine"></div>
+ <div class="hide text-center" id="myForecasts">
+    <h1 class="forecastDiv">My Forecasts</h1>
+    <!-- <div id="forecastsMine"></div> -->
   </div>
 
 
 <!--SOCIAL-->
-<footer>
+<footer id="socialFooter hide" class="social">
 	<i class="material-icons">share</i>
 	<button type="button" class="mdc-fab material-icons" id="facebookButton">
 		<img class="social-button" src="./images/facebook.png">
 	</button>
-
 	<button type="button" class="mdc-fab material-icons" id="twitterButton">
 		<img class="social-button" src="./images/twitter.png">
 	</button>

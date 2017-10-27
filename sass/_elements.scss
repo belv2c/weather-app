@@ -14,11 +14,17 @@ background: linear-gradient(to top, #000000, #EB5757); /* W3C, IE 10+/ Edge, Fir
 
   }
 
+
   .card:hover {
   transform: translateY(-3px);
   -webkit-transform: translateY(-3px);
   -moz-transform: translateY(-3px);
    cursor: pointer;
+}
+
+.navbar {
+  border-color: white;
+  background-color: white;
 }
 
 .details {
@@ -51,6 +57,55 @@ h4 {
 .social-button {
     width: 56px;
     height: 56px;
+}
+
+.authPage {
+  list-style: none;
+  margin-top: -18px;
+  background: #34e89e;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #0f3443, #34e89e);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #0f3443, #34e89e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.input-group {
+    width: 378px;
+    margin: 0 auto;
+}
+
+.homeIcon {
+    margin-top: 37px;
+    font-size: 122px;
+    color: white;
+}
+
+.authBackground {
+    margin: 14px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.weather-app {
+  font-weight: 200;
+  color: white;
+  margin-bottom: 38px;
+}
+
+#emailHolder {
+  margin-bottom: 29px;
+  border-radius: 5px;
+}
+
+#passwordHolder {
+  margin-bottom: 32px;
+  border-radius: 5px;
+}
+
+#goButton {
+  margin-bottom: 13px;
+  background-color: transparent;
+  font-size: larger;
+  border-radius: 7px;
 }
 
 #searchZip {
