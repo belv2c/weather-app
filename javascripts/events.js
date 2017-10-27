@@ -74,12 +74,24 @@ $("#fiveDayButton").click((e) => {
 
 const myLinks = () => {
 	$(document).click((e) =>{
-		if(e.target.id === "mine"){
-			$("#search").addClass("hide");
-		}else if (e.target.id === "searchWeather") {
+	 	if (e.target.id === "searchWeather") {
 			$("#search").removeClass("hide");
 			$("#myForecasts").addClass("hide");
+			$("#authScreen").addClass("hide");
+			$("#socialFooter").removeClass("hide");
+		} else if(e.target.id === "mine"){
+			$("#search").addClass("hide");
+			$("#myForecasts").removeClass("hide");
+			$("#authScreen").addClass("hide");
+			$("#socialFooter").removeClass("hide");
 			/*getMahMovies();*/
+		} else if (e.target.id === "authenticate") {
+			$("#search").addClass("hide");
+			$("#myForecasts").addClass("hide");
+			$("#authScreen").removeClass("hide");
+			
+			
+			
 		}
 	});
 };
