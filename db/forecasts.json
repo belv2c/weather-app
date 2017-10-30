@@ -1,0 +1,44 @@
+{
+	"forecasts":{
+			"forecast0": {
+				"icon": "hi",
+				"temp": "hi",
+				"conditions": "hi",
+				"high_temp": "hi",
+				"windspeed": "hi",
+				"uid": ""
+		},
+			"forecast1": {
+				"icon": "hi",
+				"temp": "hi",
+				"conditions": "hi",
+				"high_temp": "hi",
+				"windspeed": "hi",
+				"uid": ""
+		},
+			"forecast2": {
+				"icon": "hi",
+				"temp": "hi",
+				"conditions": "hi",
+				"high_temp": "hi",
+				"windspeed": "hi",
+				"uid": ""
+		},
+			"forecast3": {
+				"icon": "hi",
+				"temp": "hi",
+				"conditions": "hi",
+				"high_temp": "hi",
+				"windspeed": "hi",
+				"uid": ""
+		},
+			"forecast4": {
+				"icon": "hi",
+				"temp": "hi",
+				"conditions": "hi",
+				"high_temp": "hi",
+				"windspeed": "hi",
+				"uid": ""
+			}
+		}
+	}

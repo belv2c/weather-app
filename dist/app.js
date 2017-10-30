@@ -116,20 +116,23 @@ const buildDomString = (weatherObject) => {
 		let completedWeatherIcon = `<i class="wi wi-owm-${weather}"></i>`;
 	domString += `<div class="card col-xs-12">`;
 	
-	domString +=	`<h4>${moment.utc(weatherArray[i].dt_txt).format('dddd[, ]MMMM DD')}</h4>`;
+	domString +=	`<h4 class="date">${moment.utc(weatherArray[i].dt_txt).format('dddd[, ]MMMM DD')}</h4>`;
 	domString +=	`<div class="row col-md-6">`;
 	domString +=	`<div class="icon">${completedWeatherIcon}</div>`;
 	domString +=	`</div>`;
 	domString +=	`<p class="temp">${Math.round(weatherArray[i].main.temp)}&deg F</p>`;
 	domString +=	`<div class="details col-md-12">`;
 	domString += 	`<p class="description">${weatherArray[i].weather[0].description}</p>`;
+	domString +=	`<p class="extremetemps">Hi ${Math.round(weatherArray[i].main.temp_max)}&deg F  |  Lo ${Math.round(weatherArray[i].main.temp_min)}&deg F</p>`;
 	domString += 	`<p class="air">Air pressure: ${Math.round(weatherArray[i].main.pressure)} mb</h3>`;
 	domString += 	`<p class="wind">Wind speed: ${Math.round(weatherArray[i].wind.speed)} mph</h3>`;
 	domString +=	`</div>`;
+	domString +=	`<button class="heart mdc-fab mdc-fab--mini"><i class="material-icons mdc-button__icon">favorite</i></button>`;
 	domString += `</div>`;
 	domString += `</main>`;
 	}
 	printToDom(domString);
+	console.log(weatherArray);
 };
 
 // three day forecast domstring
@@ -155,15 +158,18 @@ const threeDayString = (weatherObject, i) => {
 	domString += `<div class="card col-xs-12">`;
 	
 	domString +=	`<h4>${moment.utc(weatherArray[i].dt_txt).format('dddd[, ]MMMM DD')}</h4>`;
+
 	domString +=	`<div class="row col-md-6">`;
 	domString +=	`<div class="icon">${completedWeatherIcon}</div>`;
 	domString +=	`</div>`;
 	domString +=	`<p class="temp">${Math.round(weatherArray[i].main.temp)}&deg F</p>`;
 	domString +=	`<div class="details col-md-12">`;
 	domString += 	`<p class="description">${weatherArray[i].weather[0].description}</p>`;
+	domString +=	`<p class="extremetemps">Hi ${Math.round(weatherArray[i].main.temp_max)}&deg F  |  Lo ${Math.round(weatherArray[i].main.temp_min)}&deg F</p>`;
 	domString += 	`<p class="air">Air pressure: ${Math.round(weatherArray[i].main.pressure)} mb</h3>`;
 	domString += 	`<p class="wind">Wind speed: ${Math.round(weatherArray[i].wind.speed)} mph</h3>`;
 	domString +=	`</div>`;
+	domString +=	`<button class="heart mdc-fab mdc-fab--mini"><i class="material-icons mdc-button__icon">favorite</i></button>`;
 	domString += `</div>`;
 	domString += `</main>`;
 }
@@ -201,9 +207,11 @@ const fiveDayString = (weatherObject, i) => {
 	domString +=	`<p class="temp">${Math.round(weatherArray[i].main.temp)}&deg F</p>`;
 	domString +=	`<div class="details col-md-12">`;
 	domString += 	`<p class="description">${weatherArray[i].weather[0].description}</p>`;
+	domString +=	`<p class="extremetemps">Hi ${Math.round(weatherArray[i].main.temp_max)}&deg F  |  Lo ${Math.round(weatherArray[i].main.temp_min)}&deg F</p>`;
 	domString += 	`<p class="air">Air pressure: ${Math.round(weatherArray[i].main.pressure)} mb</h3>`;
 	domString += 	`<p class="wind">Wind speed: ${Math.round(weatherArray[i].wind.speed)} mph</h3>`;
 	domString +=	`</div>`;
+	domString +=	`<button class="heart mdc-fab mdc-fab--mini"><i class="material-icons mdc-button__icon">favorite</i></button>`;
 	domString += `</div>`;
 	domString += `</main>`;
 }
@@ -296,6 +304,16 @@ $("#fiveDayButton").click((e) => {
 	});
 };
 
+const getMyForecasts = () => {
+	firebaseApi.getForecastList().then((results) => {
+		dom.clearDom('forecastsMine');
+		dom.domString(results, 'forecastsMine');
+	}).catch((err) => {
+		console.log("error in getMyForecasts", err);
+	});
+};
+
+
 const myLinks = () => {
 	$(document).click((e) =>{
 	 	if (e.target.id === "searchWeather") {
@@ -308,7 +326,7 @@ const myLinks = () => {
 			$("#myForecasts").removeClass("hide");
 			$("#authScreen").addClass("hide");
 			$("#socialFooter").removeClass("hide");
-			/*getMahMovies();*/
+			getMyForecasts();
 		} else if (e.target.id === "authenticate") {
 			$("#search").addClass("hide");
 			$("#myForecasts").addClass("hide");
@@ -329,6 +347,30 @@ const googleAuth = () => {
 	});
 };
 
+// closest goes up, find goes down
+const saveEvent = () => {
+	$('body').on('click', '.heart', (e) => {
+		let saveMe = e.target.closest('.card');
+		
+		let savedForecast = {
+			"icon": $(saveMe).find('.icon').html(),
+			"temp": $(saveMe).find('.overview').html(),
+			"conditions": $(saveMe).find('.description').html().split('/').pop(),
+			"high_temp": $(saveMe).find('.extremetemps').html().split('/').pop(),
+			"windspeed": $(saveMe).find('.wind').html().split('/').pop(),
+			"uid": ""
+		};
+		
+		firebaseApi.saveWeather(savedForecast).then((results) => {
+			
+			console.log("saveForecast results", results); // id for saved forecasts stored in firebase
+		}).catch((err) => {
+			console.log("error in saveMovie", err);
+		});
+
+	});
+};
+
 const init = () => {
 	enterEvent();
 	enterThreeEvent();
@@ -340,6 +382,7 @@ const init = () => {
 	searchFiveDayZip();
 	myLinks();
 	googleAuth();
+	saveEvent();
 };
 
 
@@ -372,7 +415,40 @@ let authenticateGoogle = () => {
     });
   };
 
-module.exports = {setKey, authenticateGoogle};
+const getForecastList = () => {
+  let forecasts = [];
+    return new Promise((resolve, reject) =>{
+      $.ajax(`${firebaseKey.databaseURL}/forecasts.json?orderBy="uid"&equalTo="${userUid}"`).then((fbForecasts) => {
+        console.log("forecasts", fbForecasts);
+        if(fbForecasts != null){
+        Object.keys(fbForecasts).forEach((key) => {
+          fbForecasts[key].id = key;
+          forecasts.push(fbForecasts[key]);
+        });
+      }
+
+        resolve(forecasts);
+      }).catch((error) =>{
+        reject(error);
+      });
+    });
+  };
+
+const saveWeather = (forecast) => {
+  forecast.uid = userUid;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+        method: "POST", 
+        url: `${firebaseKey.databaseURL}/forecasts.json`,
+        data: JSON.stringify(forecast)
+     }).then((result) => {
+        resolve(result);
+     }).catch((error) => {
+        reject(error);
+    });
+  });
+};
+module.exports = {setKey, authenticateGoogle, getForecastList, saveWeather};
 },{}],6:[function(require,module,exports){
 "use strict";
 

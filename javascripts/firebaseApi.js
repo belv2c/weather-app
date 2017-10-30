@@ -21,4 +21,37 @@ let authenticateGoogle = () => {
     });
   };
 
-module.exports = {setKey, authenticateGoogle};
+const getForecastList = () => {
+  let forecasts = [];
+    return new Promise((resolve, reject) =>{
+      $.ajax(`${firebaseKey.databaseURL}/forecasts.json?orderBy="uid"&equalTo="${userUid}"`).then((fbForecasts) => {
+        console.log("forecasts", fbForecasts);
+        if(fbForecasts != null){
+        Object.keys(fbForecasts).forEach((key) => {
+          fbForecasts[key].id = key;
+          forecasts.push(fbForecasts[key]);
+        });
+      }
+
+        resolve(forecasts);
+      }).catch((error) =>{
+        reject(error);
+      });
+    });
+  };
+
+const saveWeather = (forecast) => {
+  forecast.uid = userUid;
+  return new Promise((resolve, reject) => {
+    $.ajax({
+        method: "POST", 
+        url: `${firebaseKey.databaseURL}/forecasts.json`,
+        data: JSON.stringify(forecast)
+     }).then((result) => {
+        resolve(result);
+     }).catch((error) => {
+        reject(error);
+    });
+  });
+};
+module.exports = {setKey, authenticateGoogle, getForecastList, saveWeather};

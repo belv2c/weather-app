@@ -72,6 +72,16 @@ $("#fiveDayButton").click((e) => {
 	});
 };
 
+const getMyForecasts = () => {
+	firebaseApi.getForecastList().then((results) => {
+		dom.clearDom('forecastsMine');
+		dom.domString(results, 'forecastsMine');
+	}).catch((err) => {
+		console.log("error in getMyForecasts", err);
+	});
+};
+
+
 const myLinks = () => {
 	$(document).click((e) =>{
 	 	if (e.target.id === "searchWeather") {
@@ -84,7 +94,7 @@ const myLinks = () => {
 			$("#myForecasts").removeClass("hide");
 			$("#authScreen").addClass("hide");
 			$("#socialFooter").removeClass("hide");
-			/*getMahMovies();*/
+			getMyForecasts();
 		} else if (e.target.id === "authenticate") {
 			$("#search").addClass("hide");
 			$("#myForecasts").addClass("hide");
@@ -105,6 +115,30 @@ const googleAuth = () => {
 	});
 };
 
+// closest goes up, find goes down
+const saveEvent = () => {
+	$('body').on('click', '.heart', (e) => {
+		let saveMe = e.target.closest('.card');
+		
+		let savedForecast = {
+			"icon": $(saveMe).find('.icon').html(),
+			"temp": $(saveMe).find('.overview').html(),
+			"conditions": $(saveMe).find('.description').html().split('/').pop(),
+			"high_temp": $(saveMe).find('.extremetemps').html().split('/').pop(),
+			"windspeed": $(saveMe).find('.wind').html().split('/').pop(),
+			"uid": ""
+		};
+		
+		firebaseApi.saveWeather(savedForecast).then((results) => {
+			
+			console.log("saveForecast results", results); // id for saved forecasts stored in firebase
+		}).catch((err) => {
+			console.log("error in saveMovie", err);
+		});
+
+	});
+};
+
 const init = () => {
 	enterEvent();
 	enterThreeEvent();
@@ -116,6 +150,7 @@ const init = () => {
 	searchFiveDayZip();
 	myLinks();
 	googleAuth();
+	saveEvent();
 };
 
 
