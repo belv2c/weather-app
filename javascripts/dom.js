@@ -20,20 +20,23 @@ const buildDomString = (weatherObject) => {
 		let completedWeatherIcon = `<i class="wi wi-owm-${weather}"></i>`;
 	domString += `<div class="card col-xs-12">`;
 	
-	domString +=	`<h4>${moment.utc(weatherArray[i].dt_txt).format('dddd[, ]MMMM DD')}</h4>`;
+	domString +=	`<h4 class="date">${moment.utc(weatherArray[i].dt_txt).format('dddd[, ]MMMM DD')}</h4>`;
 	domString +=	`<div class="row col-md-6">`;
 	domString +=	`<div class="icon">${completedWeatherIcon}</div>`;
 	domString +=	`</div>`;
 	domString +=	`<p class="temp">${Math.round(weatherArray[i].main.temp)}&deg F</p>`;
 	domString +=	`<div class="details col-md-12">`;
 	domString += 	`<p class="description">${weatherArray[i].weather[0].description}</p>`;
+	domString +=	`<p class="extremetemps">Hi ${Math.round(weatherArray[i].main.temp_max)}&deg F  |  Lo ${Math.round(weatherArray[i].main.temp_min)}&deg F</p>`;
 	domString += 	`<p class="air">Air pressure: ${Math.round(weatherArray[i].main.pressure)} mb</h3>`;
 	domString += 	`<p class="wind">Wind speed: ${Math.round(weatherArray[i].wind.speed)} mph</h3>`;
 	domString +=	`</div>`;
+	domString +=	`<button class="heart mdc-fab mdc-fab--mini"><i class="material-icons mdc-button__icon">favorite</i></button>`;
 	domString += `</div>`;
 	domString += `</main>`;
 	}
 	printToDom(domString);
+	console.log(weatherArray);
 };
 
 // three day forecast domstring
@@ -59,15 +62,18 @@ const threeDayString = (weatherObject, i) => {
 	domString += `<div class="card col-xs-12">`;
 	
 	domString +=	`<h4>${moment.utc(weatherArray[i].dt_txt).format('dddd[, ]MMMM DD')}</h4>`;
+
 	domString +=	`<div class="row col-md-6">`;
 	domString +=	`<div class="icon">${completedWeatherIcon}</div>`;
 	domString +=	`</div>`;
 	domString +=	`<p class="temp">${Math.round(weatherArray[i].main.temp)}&deg F</p>`;
 	domString +=	`<div class="details col-md-12">`;
 	domString += 	`<p class="description">${weatherArray[i].weather[0].description}</p>`;
+	domString +=	`<p class="extremetemps">Hi ${Math.round(weatherArray[i].main.temp_max)}&deg F  |  Lo ${Math.round(weatherArray[i].main.temp_min)}&deg F</p>`;
 	domString += 	`<p class="air">Air pressure: ${Math.round(weatherArray[i].main.pressure)} mb</h3>`;
 	domString += 	`<p class="wind">Wind speed: ${Math.round(weatherArray[i].wind.speed)} mph</h3>`;
 	domString +=	`</div>`;
+	domString +=	`<button class="heart mdc-fab mdc-fab--mini"><i class="material-icons mdc-button__icon">favorite</i></button>`;
 	domString += `</div>`;
 	domString += `</main>`;
 }
@@ -105,9 +111,11 @@ const fiveDayString = (weatherObject, i) => {
 	domString +=	`<p class="temp">${Math.round(weatherArray[i].main.temp)}&deg F</p>`;
 	domString +=	`<div class="details col-md-12">`;
 	domString += 	`<p class="description">${weatherArray[i].weather[0].description}</p>`;
+	domString +=	`<p class="extremetemps">Hi ${Math.round(weatherArray[i].main.temp_max)}&deg F  |  Lo ${Math.round(weatherArray[i].main.temp_min)}&deg F</p>`;
 	domString += 	`<p class="air">Air pressure: ${Math.round(weatherArray[i].main.pressure)} mb</h3>`;
 	domString += 	`<p class="wind">Wind speed: ${Math.round(weatherArray[i].wind.speed)} mph</h3>`;
 	domString +=	`</div>`;
+	domString +=	`<button class="heart mdc-fab mdc-fab--mini"><i class="material-icons mdc-button__icon">favorite</i></button>`;
 	domString += `</div>`;
 	domString += `</main>`;
 }
